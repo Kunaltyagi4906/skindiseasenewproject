@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Disease Prediction</title>
+    <style>
+        /* General body styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            background: url('/static/uploads/image6.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Header styles */
+        h1 {
+            color:red;
+
+
+            margin-left: -600px;
+            font-size: 60px;
+            font-weight:1000;
+            margin-bottom: 20px;
+        }
+
+        /* Container styles */
+        .container {
+            background-image: url('static/uploads/gradent.jpeg');
+            background-size: cover; /* Ensures the image covers the entire container */
+            background-position: center;
+            padding: 15px;
+            border-radius: 12px;
+            width: 800px;
+            height: 300px;
+            max-width: 650px;
+            margin-left: -600px;
+            margin-bottom: 50px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Layout for forms and buttons */
+        .form-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Styling for the upload form */
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .upload-form label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .upload-form input[type="file"] {
+            display: none;
+        }
+
+        .upload-form button {
+            margin-top: 10px;
+        }
+
+        /* Webcam buttons and layout */
+        .webcam-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .webcam-controls button {
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            width: 180px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Shared button styling */
+        button {
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            width: 180px;
+            text-align: center;
+        }
+
+        button:hover {
+            background-color: #003366;
+        }
+
+        /* Video element styling */
+        #webcam {
+            margin-top: 20px;
+            border-radius: 8px;
+            display: block;
+            position: absolute; /* Added to control position dynamically */
+        }
+
+        /* Hidden elements */
+        #canvas {
+            display: none;
+        }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 600px) {
+            .form-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .upload-form, .webcam-controls {
+                align-items: center;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Skin Disease Prediction</h1>
+    <div class="container">
+        <div class="form-container">
+            <!-- Form for file upload -->
+            <div class="upload-form">
+                <form action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data">
+                    <label for="fileInput">Choose File</label>
+                    <input type="file" id="fileInput" name="file" accept="image/*">
+                    <button type="submit">Upload Image</button>
+                </form>
+            </div>
+
+            <!-- Webcam controls -->
+            <div class="webcam-controls">
+                <button id="startWebcam" onclick="startWebcam()">Start Webcam</button>
+
+                <!-- Hidden canvas to capture image from webcam -->
+                <canvas id="canvas"></canvas>
+
+                <!-- Form for captured image -->
+                <form id="imageForm" method="POST" action="{{ url_for('predict') }}">
+                    <input type="hidden" id="captured_image" name="captured_image">
+                    <button type="button" onclick="captureImage()">Capture Image</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Webcam video element -->
+        <video id="webcam" width="640" height="480" autoplay></video>
+    </div>
+
+    <script>
+        let webcamStream = null;
+
+        // Start or stop the webcam
+        function startWebcam() {
+            const webcam = document.getElementById("webcam");
+            const startWebcamButton = document.getElementById("startWebcam");
+
+            if (webcamStream) {
+                stopWebcam();
+            } else {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function(stream) {
+                        webcam.srcObject = stream;
+                        webcam.style.display = 'block';
+                        startWebcamButton.textContent = "Stop Webcam";
+                        webcamStream = stream;
+
+                        // Change webcam position and size after starting
+                        webcam.style.left = "1200px";  // Change this to move the webcam
+                        webcam.style.top = "300px";  // Change this to move the webcam
+                        webcam.style.width = "600px";  // Change this to adjust the webcam size
+                        webcam.style.height = "500px";  // Change this to adjust the webcam size
+                    })
+                    .catch(function(error) {
+                        console.error("Error accessing webcam: ", error);
+                    });
+            }
+        }
+
+        // Stop the webcam
+        function stopWebcam() {
+            const webcam = document.getElementById("webcam");
+            if (webcamStream) {
+                const tracks = webcamStream.getTracks();
+                tracks.forEach(track => track.stop());
+                webcam.srcObject = null;
+                webcam.style.display = 'none';
+                document.getElementById("startWebcam").textContent = "Start Webcam";
+                webcamStream = null;
+
+                // Reset the webcam position and size when stopped
+                webcam.style.left = "0";
+                webcam.style.top = "0";
+                webcam.style.width = "640px";
+                webcam.style.height = "480px";
+            }
+        }
+
+        // Capture the image from webcam
+        function captureImage() {
+            const webcam = document.getElementById("webcam");
+            const canvas = document.getElementById("canvas");
+            const context = canvas.getContext("2d");
+
+            // Set canvas size to match the video size
+            canvas.width = webcam.videoWidth;
+            canvas.height = webcam.videoHeight;
+
+            // Draw the current frame on the canvas
+            context.drawImage(webcam, 0, 0, canvas.width, canvas.height);
+
+            // Convert canvas to base64 image string
+            const capturedImage = canvas.toDataURL("image/png");
+
+            // Set the captured image data to the hidden form field
+            document.getElementById("captured_image").value = capturedImage;
+
+            // Submit the form to send the image data to the server for prediction
+            document.getElementById("imageForm").submit();
+        }
+    </script>
+</body>
+</html>

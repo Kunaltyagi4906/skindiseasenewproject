@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <style>
+        /* General body styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Using the uploaded image as background */
+            background: url('/static/uploads/health.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Content box styling */
+        .content {
+            background-color: skyblue; /* Dark semi-transparent background */
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            width: 60%;
+            height: 700px;
+            box-shadow: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Image container box styling */
+        .image-box {
+            background-color: rgba(255, 255, 255, 0.7); /* Light semi-transparent background */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 30%;
+            height: auto;
+            display: flex;
+            justify-content: center;
+             align-items: center;
+        }
+
+        /* Image styling */
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 3px solid #fff;
+            border-radius: 10px;
+        }
+
+        /* Header styles */
+        h2{
+            font-size: 50px;
+            margin-top: 1px;
+            margin-bottom: 50px;
+            color: black;
+            <!--text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);-->
+            color: black;
+        }
+
+        h3{
+            font-size: 60px;
+            color: red;
+        }
+
+        /* Treatment and Cure sections */
+        .details {
+            margin-top: 50px;
+            font-size: 30px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .details p {
+            margin: 10px 0;
+        }
+
+        /* Button styling */
+        .content a {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 40px 90px;
+            background-color: #28a745; /* Green color */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        a:hover {
+            background-color: #218838; /* Darker green on hover */
+            transform: scale(1.05); /* Slight zoom effect */
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h2>Prediction Result</h2>
+
+        <!-- Image box -->
+        {% if image_url %}
+        <div class="image-box">
+            <img src="{{ image_url }}" alt="Uploaded Image">
+        </div>
+        {% endif %}
+
+        <h3>Predicted Disease: {{ prediction }}</h3>
+
+        <!-- Treatment and Cure -->
+        <div class="details">
+            <p><strong>Treatment:</strong> {{ details['treatment'] }}</p>
+            <p><strong>Cure:</strong> {{ details['cure'] }}</p>
+        </div>
+
+        <a href="/">Go Back to Home</a>
+    </div>
+</body>
+</html>

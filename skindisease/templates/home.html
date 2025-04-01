@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}
+    KUNAL TYAGI
+{% endblock %}
+{% block content %}
+  <body class="text-center"
+        style="margin: 0; padding: 0; height: 100vh; overflow: hidden; background-color: black;">
+    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-black" style="color:white">
+        <div class="col-md-5 p-lg-8 mx-auto my-5">
+            <h1 class="skin-predictor-heading">
+                      SKIN DISEASE PREDICTOR
+            </h1>
+
+          <style>
+           .skin-predictor-heading {
+                font-weight: 600;
+                color: #333; /* Use a slightly softer black for better aesthetics */
+                font-size: 3vw; /* Make the size responsive */
+                padding: 10px 20px; /* Adjusted padding for balanced spacing */
+                border-radius: 60px;
+                background: #793a09; /* Adds a gradient background */
+                color: white; /* Ensures text is visible on gradient */
+                text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Adds a subtle shadow for depth */
+                text-align: center; /* Centers the heading */
+                margin: 20px auto; /* Centered and spaced vertically */
+                max-width: 90%; /* Prevents excessive width */
+           }
+
+           @media (max-width: 400px) {
+                .skin-predictor-heading {
+                    font-size: 7vw; /* Adjust font size for smaller screens */
+                    padding: 15px 30px; /* Reduce padding for smaller screens */
+                }
+           }
+
+           @media (max-width: 480px) {
+                .skin-predictor-heading {
+                    font-size: 8vw; /* Further adjust for very small screens */
+                    padding: 10px 20px;
+                }
+           }
+          </style>
+
+
+
+<!--            <img class="mb-4" src="{{ url_for('static', filename='uploads/logo.jpeg') }}" alt="Logo" style="width: 500px; height: 500px;">-->
+            <p class="prediction-lead">
+                  Start prediction by clicking the link below
+            </p>
+          <style>
+            .prediction-lead {
+                font-weight: 500; /* A slightly lighter font weight for readability */
+                font-size: 1.5rem; /* Responsive font size in rem units */
+                color: #444; /* Softer dark color for text */
+                text-align: center; /* Center-align the text */
+                line-height: 1.8; /* Add some breathing space between lines */
+                margin: 20px auto; /* Add space above and below */
+                max-width: 80%; /* Prevent the text from spreading too wide */
+                padding: 10px; /* Add slight padding for a clean look */
+                background-color: #f9f9f9; /* Light gray background for contrast */
+                border: 2px solid #ff5e62; /* Add a border for emphasis */
+                border-radius: 12px; /* Rounded corners */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+                 transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add animation */
+                }
+              .prediction-lead {
+                        position: relative; /* Use relative positioning */
+                        top: 50px; /* Move it 50px downward */
+                        left: 20px; /* Move it 20px to the right */
+                }
+
+          </style>
+
+            <style>
+                    /* Button base styling */
+                .animated-btn {
+                    display: inline-block;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    padding: 10px 20px;
+                    color: #fff;
+                    background-color: #007bff;
+                    border: none;
+                    border-radius: 5px;
+                    text-decoration: none;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
+                .btn {
+                     position: relative; /* Use for positioning relative to its container */
+                     top: 90px; /* Pushes it down by 20px */
+                      left: 20px; /* Pushes it to the right by 30px */
+                   }
+
+                /* Add hover effect */
+                  .animated-btn:hover {
+                      transform: scale(1.1); /* Enlarges the button slightly */
+                      box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4); /* Adds a glowing shadow */
+                                        -color: #0056b3; /* Darker blue on hover */
+                  }
+
+                  /* Add a pulsating animation */
+                  .animated-btn.pulse {
+                        animation: pulse 2s infinite; /* Infinite loop */
+                  }
+
+                  @keyframes pulse {
+                      0%, 100% {
+                          transform: scale(1); /* Normal size */
+                      }
+                      50% {
+                          transform: scale(1.1); /* Enlarged size */
+                      }
+                  }
+            </style>
+
+<!-- Button HTML -->
+            <a class="btn animated-btn pulse" href="{{ url_for('predict') }}">Get Started</a>
+
+
+        </div>
+        <div class="product-device box-shadow d-none d-md-block"></div>
+        <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
+    </div>
+  </body>
+{% endblock %}
